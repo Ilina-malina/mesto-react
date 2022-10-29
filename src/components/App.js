@@ -34,7 +34,12 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Main onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onCardClick={setSelectedCard} />
+      <Main 
+        onAddPlace={handleAddPlaceClick} 
+        onEditAvatar={handleEditAvatarClick} 
+        onEditProfile={handleEditProfileClick} 
+        onCardClick={setSelectedCard}
+      />
       <Footer />
       <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
       <form className="popup__form" name="profile-form" noValidate>
