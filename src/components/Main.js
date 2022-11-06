@@ -1,36 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { api } from '../utils/Api.js';
+import React, { useContext } from 'react';
 import Card from './Card.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { CardsContext } from '../contexts/CardsContext.js';
 
 function Main(props) {
-    const [cards, setCards] = useState([]);
+    const currentUser = useContext(CurrentUserContext);
+    const cards = useContext(CardsContext);
 
-    const currentUser = React.useContext(CurrentUserContext);
+    const onCardLike = (card) => {
+      props.onCardLike(card);
+    }
 
-    useEffect(() => {
-        api.getInitialCards().then(cards => {
-            setCards(cards);
-        })
-    }, [])
-
-    const handleLike = (card) => {  
-      if (card.likes.some(item => item._id === currentUser._id)) {
-        api.deleteLike(card._id).then((newCard) => {
-          setCards((cards) => cards.map((item) => card._id === item._id ? newCard : item));
-        })
-      } else {
-       api.putLike(card._id).then((newCard) => {
-        setCards((cards) => cards.map((item) => card._id === item._id ? newCard : item));
-       })
-      }
-    };
-
-    const handleCardDelete = (card) => {
-        api.deleteCard(card._id).then(() => {
-          setCards((cards) => cards.filter(item => item._id !== card._id))
-        })
-    };
+    const onCardDelete = (card) => {
+      props.onCardDelete(card);
+    }
 
     return (
         <main className="main">
@@ -51,7 +34,7 @@ function Main(props) {
               <button className="profile__add-button" type="button" aria-label="Добавить информацию" onClick={props.onAddPlace}></button>
             </section>
             <section className="elements">
-                {cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCardClick} onLikeClick={handleLike} onCardDelete={handleCardDelete} />)}
+                {cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />)}
             </section>
         </main>
     )

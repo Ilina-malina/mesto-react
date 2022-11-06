@@ -11,7 +11,7 @@ function Card(props) {
   };
 
   const handleLikeClick = () => {
-    props.onLikeClick(props.card);
+    props.onCardLike(props.card);
   };
 
   const handleDeleteClick = () => {
