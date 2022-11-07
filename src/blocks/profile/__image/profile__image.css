@@ -5,6 +5,7 @@
     width: 120px;
     height: 120px;
     position: relative;
+    cursor: pointer;
 }
 
 .profile__image:hover .profile__overlay {

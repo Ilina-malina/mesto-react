@@ -1,9 +1,9 @@
 .element__photo {
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
     height: 282px;
     width: 282px;
     display: block;
+    cursor: pointer;
 }
 
 .element__photo:hover {
