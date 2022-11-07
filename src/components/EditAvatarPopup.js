@@ -1,8 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
 function EditAvatarPopup(props) {
     const avatarRef = useRef();
+
+    useEffect(() => {
+      if (props.isOpen) {
+        avatarRef.current.value = '';
+      }
+    }, [props.isOpen]);
 
     function handleSubmit(e) {
         e.preventDefault();

@@ -1,17 +1,31 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
 function AddPlacePopup(props) {
-    console.log(props);
-    const placeRef = useRef();
-    const linkRef = useRef();
+    const [name, setName] = useState('');
+    const [link, setLink] = useState('');
+
+    useEffect(() => {
+      if (props.isOpen) {
+        setName('');
+        setLink('');
+      }
+    }, [props.isOpen]);
+
+    function handleNameChange(e) {
+      setName(e.target.value);
+  }
+
+  function handleLinkChange(e) {
+      setLink(e.target.value);
+  }
 
     function handleSubmit(e) {
         e.preventDefault();
       
         props.onAddPlace(
-          placeRef.current.value,
-          linkRef.current.value
+          name,
+          link
         );
     }
 
@@ -19,11 +33,11 @@ function AddPlacePopup(props) {
         <PopupWithForm name="place" title="Новое место" isOpen={props.isOpen} onClose={props.onClose} >
           <form className="popup__form" name="add-place__form" noValidate onSubmit={handleSubmit}>
             <div className="popup__input-zone">
-              <input className="popup__input popup__input_type_place" ref={placeRef}required type="text" name="place" minLength="1" maxLength="30" placeholder="Название"/>
+              <input className="popup__input popup__input_type_place" onChange={handleNameChange} required type="text" value={name} minLength="1" maxLength="30" placeholder="Название"/>
               <span className="popup__error"></span> 
             </div>
             <div className="popup__input-zone">
-              <input className="popup__input popup__input_type_link" ref={linkRef} required type="url" placeholder="Ссылка на картинку"/>
+              <input className="popup__input popup__input_type_link" onChange={handleLinkChange} required type="url" value={link} placeholder="Ссылка на картинку"/>
               <span className="popup__error"></span> 
             </div>
             <button className="popup__submit-button popup__submit-button_disadled" type="submit" aria-label="Создать">Создать</button>

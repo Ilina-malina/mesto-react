@@ -17,18 +17,24 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({name: '', about: ''});
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api.getUserInfo().then(data => {
         setCurrentUser(data);
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 }, [])
 
   useEffect(() => {
     api.getInitialCards().then(cardList => {
         setCards(cardList);
+    })
+    .catch((err) => {
+      console.log(err);
     })
   }, [])
 
@@ -37,16 +43,25 @@ function App() {
       api.deleteLike(card._id).then((newCard) => {
         setCards((cards) => cards.map((item) => card._id === item._id ? newCard : item));
       })
+      .catch((err) => {
+        console.log(err);
+      })
     } else {
      api.putLike(card._id).then((newCard) => {
       setCards((cards) => cards.map((item) => card._id === item._id ? newCard : item));
      })
+     .catch((err) => {
+      console.log(err);
+    })
     }
   };
 
   const handleCardDelete = (card) => {
       api.deleteCard(card._id).then(() => {
         setCards((cards) => cards.filter(item => item._id !== card._id))
+      })
+      .catch((err) => {
+        console.log(err);
       })
   };
 
@@ -55,12 +70,18 @@ function handleUpdateUser(name, about) {
     setCurrentUser(data);
     closeAllPopups();
   })
+  .catch((err) => {
+    console.log(err);
+  })
 }
 
 function handleUpdateAvatar(avatar) {
   api.editUserAvatar(avatar).then(data => {
     setCurrentUser(data);
     closeAllPopups();
+  })
+  .catch((err) => {
+    console.log(err);
   })
 }
 
@@ -71,6 +92,9 @@ function handleAddPlaceSubmit(name, link) {
   }).then(newCard => {
     setCards([newCard, ...cards]);
     closeAllPopups();
+  })
+  .catch((err) => {
+    console.log(err);
   })
 }
 
