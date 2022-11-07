@@ -20,7 +20,7 @@ function Card(props) {
 
   return(
       <article className="element">
-        <img className="element__photo" alt='' onClick={handleCardClick} style={{ backgroundImage: `url(${props.card.link})` }} />
+        <img className="element__photo" src={props.card.link} alt={props.card.name} onClick={handleCardClick} />
         {isOwn ? <button className="element__delete-button" type="button" aria-label="Удалить" onClick={handleDeleteClick}></button> : ''}
         <div className="element__description">
           <h2 className="element__title">{props.card.name}</h2>
